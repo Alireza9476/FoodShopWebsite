@@ -1,0 +1,37 @@
+﻿
+@model ProductDto
+
+    <h4>Neues Produkt hinzufügen</h4><hr />
+
+  <form method="post">
+    
+    @*<div asp-validation-summary="All"></div>*@
+   
+    <label asp-for="Name" >Name:</label>
+    <input asp-for="Name" type="text" style="outline: 0; border-width: 0 0 2px"/>
+    <span asp-validation-for="Name"></span><br />
+    <br/>
+
+    <label asp-for="Price">Price:</label>
+    <input asp-for="Price" type="text" style="outline: 0; border-width: 0 0 2px"/>
+    <span asp-validation-for="Price"></span>
+    <br /><br />
+    
+    <label>Kategorie:</label>
+    <select name="Categorie" id="Categorie" asp-items="@ViewBag.CategorieList"></select>
+    <span asp-validation-for="Categorie.Guid"></span>
+    <br/><br/>
+
+    <label>Produkt Rabatt:</label>
+    <select name="DiscountProduct" id="DiscountProduct" asp-items="@ViewBag.discountProduct"></select>
+    <hr />
+    
+    <button type="submit" class="btn btn-primary" >Speichern</button><br /><br />
+
+  </form>
+
+    <a asp-controller="Product" asp-action="Index">Zurück zur Produkteansicht</a>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

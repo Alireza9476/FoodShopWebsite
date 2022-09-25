@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FoodShopWebsite.Domain\FoodShopWebsite.Domain.csproj" />
+    <ProjectReference Include="..\FoodShopWebsite.Infrastructure\FoodShopWebsite.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

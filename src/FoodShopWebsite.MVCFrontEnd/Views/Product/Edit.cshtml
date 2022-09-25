@@ -1,0 +1,78 @@
+﻿
+@*@model (ProductDto dto, bool hasChanged)*@
+
+@model ProductDto
+
+@*@if(!Model.hasChanged)
+{*@
+    <h4>Produktinformationen ändern</h4><hr />
+
+    <form method="post">
+
+    <label asp-for="Name" >Name:</label>
+    <input asp-for="Name" type="text" style="outline: 0; border-width: 0 0 2px"/>
+    <span asp-validation-for="Name"></span><br />
+    <br/>
+
+    <label asp-for="Price">Price:</label>
+    <input asp-for="Price" type="text" style="outline: 0; border-width: 0 0 2px"/>
+    <span asp-validation-for="Price"></span>
+    <br /><br />
+        
+       @* <label>Name: </label>
+        <input name="name" placeholder="@Model.Name" asp-for="Name"/>
+        <span asp-validation-for="@Model.Name"></span><br />
+    
+        <br/><br/>
+
+        <label>Price: </label>
+        <input name="price" placeholder="@Model.Price" asp-for="Price"/>
+        <sp asp-validation-for="@Model.Price"></span><br />
+        <br/><br/>
+       *@
+
+        <label>Rabatt: </label>
+        <select name="discountProduct" id="discountProduct" asp-items="@ViewBag.discountProduct"></select>
+        <br/><br/>
+     
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </form><br />
+
+    <a asp-controller="Product" asp-action="Index">Zurück zur Produkteansicht</a>
+@*}
+else{
+
+    <h1>Product wurde verändert</h1><br/>
+    <dl>
+        <dt>Name: </dt>
+        <dd>@Model.dto.Name</dd>
+
+        <dt>Kategorie: </dt>
+        <dd>@Model.dto.CategorieName</dd>
+
+
+        <dt>Weight: </dt>
+        <dd>@Model.dto.ProductDetailsWeight</dd>
+
+        <dt>Kcal: </dt>
+        <dd>@Model.dto.ProductDetailsKcal</dd>
+
+        <dt>Sugar: </dt>
+        <dd>@Model.dto.ProductDetailsSugar</dd>
+
+        <dt>Carb: </dt>
+        <dd>@Model.dto.ProductDetailsCarb</dd>
+
+        <dt>Price: </dt>
+        <dd>@Model.dto.Price €</dd>
+
+        <dt>Changetime: </dt>
+        <dd>@Model.dto.ChangedTime</dd>
+    </dl>
+
+    <a asp-controller="Product" asp-action="Index">Zurück zur Produkteansicht</a>
+}*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

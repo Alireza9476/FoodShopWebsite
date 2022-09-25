@@ -1,0 +1,36 @@
+﻿
+@model (ProductDto dto, bool result)
+
+@{
+    //Price von mehr als oder gleich 20€ dürfen nicht gelöscht werden.
+    string canDelete = Model.dto.Price >= 20 ? "disabled" : "";
+    //string displayMessage = canDelete == "disabled" ? ";display : none" : "";
+
+    string canNotDelete = canDelete == "disabled" ? "Produkte mit einem Preis von 20€ oder mehr können nicht gelöscht werden!" : "";
+    string canNotDeleteHeader = canDelete == "disabled" ? "Anmerkung!" : $"Möchten sie das Produkt {Model.dto.Name} wirklich löschen?";
+}
+
+@if (!Model.result)
+{
+    <h4>@canNotDeleteHeader</h4><hr />
+
+    @if(@canDelete == "disabled")
+    {
+        <span style="color: red"><b>@canNotDelete</b></span>
+        <br/><br />
+    }
+    else
+    {
+          <span>Mit ihrer Zustimmung wird dieses Proukt endgültig gelöscht</span><br /><br />
+    }
+
+    <form method="post"  style="display: inline">
+        <button type="submit" class="@canDelete btn btn-outline-primary">Ja</button>
+    </form>
+   
+    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-warning" style="display: inline">Abbrechen und zurück</a>
+}
+else{
+    <h4>Das Produkt @Model.dto.Name wurde erfolgreich gelöscht</h4><hr />
+    <a asp-controller="Product" asp-action="Index">Zurück zur Produkteansicht</a>
+}

@@ -1,0 +1,117 @@
+﻿@using FoodShopWebsite.Application;
+@using FoodShopWebsite.Dtos;
+
+@model (PegenatedList<UserDto> dto, string UserFirstNameFilter)
+
+@{
+    string hasPrevious = Model.dto.HasPreviousPage ? "" : "disabled";
+    string hasNext = Model.dto.HasNextPage ? "" : "disabled";
+}
+
+<h3>Customer</h3>
+
+@if(Model.dto is not null && Model.dto.Count > 0)
+{
+    <form method="get">
+        <label>Suche</label>
+        <input name="UserFirstNameFilter"/>
+        <button class="btn btn-primary" type="submit">filtern</button>
+    </form>
+    <br />
+
+    <a
+        asp-action="Index"
+        asp-route-pageIndex="@(Model.dto.PageIndex - 1)"
+        asp-route-currentProductName = "@(Model.UserFirstNameFilter)"
+        class = "btn btn-outline-primary @hasPrevious" 
+    >Previous</a>
+
+    <a
+        asp-action="Index"
+        asp-route-pageIndex = "@(Model.dto.PageIndex + 1)"
+        asp-route-currentProductName = "@(Model.UserFirstNameFilter)"
+        class = "btn btn-outline-primary @hasNext"
+    >
+        Next    
+    </a>
+
+    <p>Seite @Model.dto.PageIndex von @Model.dto.TotalPages</p>
+
+//ProductDetails = p.ProductDetails
+  
+   <table class="table table-striped">
+       <thead>
+            <tr>
+                <th>
+                    <a asp-action="Index"
+                          asp-route-currentProductName = "@(Model.UserFirstNameFilter)"
+                          asp-route-sort="@ViewData["sortParamFirstname"]"
+                       >
+                          Firstname:
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index"
+                          asp-route-currentProductName = "@(Model.UserFirstNameFilter)"
+                          asp-route-sort="@ViewData["sortParamSecondName"]"
+                       >
+                          Secondname:
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index"
+                          asp-route-currentProductName = "@(Model.UserFirstNameFilter)"
+                          asp-route-sort="@ViewData["sortParamEmail"]"
+                       >
+                          Email:
+                    </a>
+                </th>
+            <th>Gender</th>
+            <th>PhoneNumber</th>
+            <th>Street</th>
+            <th>Zip</th>
+            <th>City</th>
+        </tr>
+
+       </thead>
+
+       <tbody>
+           @foreach(UserDto item in @Model.dto)
+            {
+            <tr>
+                <th>@item.FirstName</th>
+                <th>@item.SecondName</th>
+                <th>@item.Email</th>
+                    @if(@item.Gender == Gender.Female)
+                    {
+                      <th>
+                        @item.Gender
+                      </th>
+                    }
+                    else if(@item.Gender == Gender.Male)
+                    {
+                      <th style="color: blue">
+                        @item.Gender
+                      </th>
+                    }
+                    else
+                    {
+                      <th>
+                        @item.Gender
+                      </th>
+                    }
+                <th>@item.PhoneNumber</th>
+               <th>@item.Adresse.Street</th>
+                <th>@item.Adresse.Zip</th>
+                <th>@item.Adresse.City</th>
+            </tr>
+            }
+        </tbody>
+   </table>
+}
+else
+{
+    <h1>Keine Produkte gefunden</h1>
+    <a asp-controller="Users" asp-action="Index">Zurück zur Usersansicht</a>
+}
+

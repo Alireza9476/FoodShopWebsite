@@ -1,0 +1,130 @@
+﻿@using FoodShopWebsite.Application;
+@using FoodShopWebsite.Dtos;
+
+@model (PegenatedList<ProductDto> product, string productNameFilter)
+
+@{
+    string hasPrevious = Model.product.HasPreviousPage ? "" : "disabled";
+    string hasNext = Model.product.HasNextPage ? "" : "disabled";
+}
+
+<h3>Product</h3>
+
+@if(Model.product is not null && Model.product.Count > 0)
+{
+    <form method="get">
+        <label>Suche</label>
+        <input name="productNameFilter"/>
+        <button class="btn btn-primary" type="submit">filtern</button>
+    </form>
+    <br />
+
+    <a
+        asp-action="Index"
+        asp-route-pageIndex="@(Model.product.PageIndex - 1)"
+        asp-route-currentProductName = "@(Model.productNameFilter)"
+        class = "btn btn-outline-primary @hasPrevious" 
+    >Previous</a>
+
+    <a
+        asp-action="Index"
+        asp-route-pageIndex = "@(Model.product.PageIndex + 1)"
+        asp-route-currentProductName = "@(Model.productNameFilter)"
+        class = "btn btn-outline-primary @hasNext"
+    >
+        Next    
+    </a>
+
+    <a 
+        asp-controller="Product"
+        asp-action="Create"
+        class = "btn btn-outline-primary"
+    >
+        Add Product
+    </a>       
+
+    <p>Seite @Model.product.PageIndex von @Model.product.TotalPages</p>
+
+//ProductDetails = p.ProductDetails
+  
+   <table class="table table-striped">
+       <thead>
+           <tr>
+               <th>
+                   <a asp-action="Index"
+                      asp-route-currentProductName = "@(Model.productNameFilter)"
+                      asp-route-sort="@ViewData["sortParamName"]"
+                   >
+                      Name:
+                   </a>
+               </th>
+               <th>
+                   <a asp-action="Index"
+                      asp-route-currentProductName = "@(Model.productNameFilter)"
+                      asp-route-sort="@ViewData["sortParamKategorie"]"
+                   >
+                      Kategorie:
+                   </a>
+               </th>
+               <th>
+                   <a asp-action="Index"
+                      asp-route-currentProductName = "@(Model.productNameFilter)"
+                      asp-route-sort="@ViewData["sortParamPreis"]"
+                   >
+                      Preis:
+                   </a>
+               </th>
+               <th>
+                   <a asp-action="Index"
+                      asp-route-currentProductName = "@(Model.productNameFilter)"
+                      asp-route-sort="@ViewData["sortParamRabatt"]"
+                   >
+                      Rabatt:
+                   </a>
+               </th>
+               <th>
+                   <a asp-action="Index"
+                      asp-route-currentProductName = "@(Model.productNameFilter)"
+                      asp-route-sort="@ViewData["sortParamChangedProductDate"]"
+                   >
+                      Änderungsdatum:
+                   </a>
+               </th>
+               <th>Details</th>
+               <th>Edit</th>
+               <th>Delete</th>
+           </tr>
+       </thead>
+
+       <tbody>
+           @foreach(ProductDto items in @Model.product)
+            {
+                <tr>
+                    <td>@items.Name</td>
+                    <td>@items.CategorieName</td>
+                    <td>@items.Price €</td>
+                    @if(items.DiscountProduct != null && items.DiscountProduct.Percent != "0"){
+                        <td>@items.DiscountProductPercent %</td>
+                    }
+                    else{
+                        <td style="color: red">Kein Rabatt</td>
+                    }
+                    <td>@items.ChangedTime.ToLongDateString()</td>
+                    <td><a asp-controller="Product" asp-action="Details" asp-route-id="@items.Guid">Detail</a></td>
+                    <td><a asp-controller="Product" asp-action="Edit" asp-route-id="@items.Guid">Edit</a></td>
+                    <td><a asp-controller="Product" asp-action="Delete" asp-route-id="@items.Guid">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+   </table>
+}
+else if(!string.IsNullOrEmpty(Model.productNameFilter))
+{
+    <h3>Es wurde kein <span style="color: red">@Model.productNameFilter</span> Produkt gefunden</h3>
+}
+else
+{
+    <h1>Keine Produkte gefunden</h1>
+    <a asp-controller="Product" asp-action="Index">Zurück zur Produkteansicht</a>
+}
+

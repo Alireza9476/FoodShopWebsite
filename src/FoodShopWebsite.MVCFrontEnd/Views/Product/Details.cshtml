@@ -1,0 +1,77 @@
+﻿
+@model ProductDto
+
+<h3>Product Details</h3><hr/>
+
+@{
+    decimal ProductDetailsKcalPerKg = @Model.ProductDetailsKcal * 1.5m;
+    decimal ProductDetailsSugarPerKg = @Model.ProductDetailsSugar * 2;
+    decimal ProductDetailsCarbPerKg = @Model.ProductDetailsCarb * 1.25m;
+}
+
+@if(Model is not null)
+{
+
+    <dl>
+        <dt>Name: </dt>
+        <dd>@Model.Name</dd>
+
+        <dt>Preis: </dt>
+        <dd>@Model.Price €</dd> 
+
+        <dt>Kategorie: </dt>
+        <dd>@Model.CategorieName</dd>
+    
+        <dt>Rabatt:</dt>
+        @if(@Model.DiscountProduct != null && @Model.DiscountProduct.Percent != "0")
+        {
+            <dd>@Model.DiscountProductPercent %</dd>
+        }
+        else
+        {
+            <dd style="color: red">Für dieses Produkt gibt es keinen Rabatt</dd>
+        }
+    </dl>
+
+        <h5>Informationen über den Inhalt:</h5>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+               <th></th>
+               <th>Gewicht:</th>
+               <th>Kcal: </th>
+               <th>Zuckermenge:</th>
+               <th>Carb:</th>
+           </tr>
+        </thead>
+
+            <tbody>
+                <tr>
+                    <td>Pro Stück</td>
+                    <td>@Model.ProductDetailsWeight g</td>
+                    <td>@Model.ProductDetailsKcal g</td>
+                    <td>@Model.ProductDetailsSugar g</td>
+                    <td>@Model.ProductDetailsCarb g</td>
+                </tr>
+
+                <tr>
+                    <td>Pro kg</td>
+                    <td>1000 g</td>
+                    <td>@ProductDetailsKcalPerKg g</td>
+                    <td>@ProductDetailsSugarPerKg g</td>
+                    <td>@ProductDetailsCarbPerKg g</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    <dl> 
+        <dt>Zuletzt geändert: </dt>
+        <dd>@Model.ChangedTime</dd>
+    </dl>
+
+    <a asp-controller="Product" asp-action="Index">Zurück zur Produkteansicht</a>
+}
+else{
+    <h3>Es wurden keine Details gefunden</h3>
+}
