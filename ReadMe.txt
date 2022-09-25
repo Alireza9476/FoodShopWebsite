@@ -1,10 +1,10 @@
-Datenbank:
-09_Projekt\FoodShopWebsite - Kopie\src\FoodShopWebsite.Infrastructure.Test\bin\Debug\net6.0\FoodShopWebsite.db
+Create database:
+run test on FoodShopWebsite.Infrastructure.Test -> CreateDatabaseTest.cs
 
-Datenbank in MVC Ordner einfügen, nicht in \bin\Debug\net6.0 Ordner.
+Database path:
+src\FoodShopWebsite.Infrastructure.Test\bin\Debug\net6.0\FoodShopWebsite.db
 
-Datenbank erzeugen:
-Rechtsklick auf FoodShopWebsite.Infrastructure.Test.UniTest dann auf ,,Run Tests", Datenbank sollte währenddessen geschlossen sein
+Paste database inside MVC folder
 
-In Browser die Daten aufrufen mit:
-https://localhost:7071/Users, /Index nicht erforderlich (Standard)
+Open in browser:
+https://localhost:7071
